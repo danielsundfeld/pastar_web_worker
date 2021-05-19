@@ -1,0 +1,17 @@
+[Unit]
+Description=Msa Pastar Worker
+After=network.target
+
+[Service]
+Type=forking
+User=ubuntu
+Group=ubuntu
+RuntimeDirectory=celery
+WorkingDirectory=/home/ubuntu/pastar_web_worker/worker
+ExecStart=celery -A celery_django.celeryconfig multi start worker -l INFO
+ExecStop=celery -A celery_django.celeryconfig multi stop worker -l INFO
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
