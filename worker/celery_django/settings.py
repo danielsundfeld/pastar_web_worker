@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,11 +75,11 @@ WSGI_APPLICATION = 'celery_django.wsgi.application'
 #Configurações Celery
 from kombu.utils.url import safequote
 
-AWS_ACCESS_KEY_ID = safequote('')
-AWS_SECRET_ACCESS_KEY = safequote('')
+AWS_ACCESS_KEY_ID = safequote(os.getenv('AWS_ACCESS_KEY_ID'))
+AWS_SECRET_ACCESS_KEY = safequote(os.getenv('AWS_SECRET_ACCESS_KEY'))
 
 CELERY_BROKER_TRANSPORT_OPTIONS = {
-    'region': 'us-east-1',
+    'region': os.getenv('AWS_REGION'),
 }
 
 CELERY_BROKER_URL = f'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}@:80'
