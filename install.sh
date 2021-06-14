@@ -1,14 +1,18 @@
 #!/bin/bash
-AWS_KEY_FILE="/home/ubuntu/pastar_web_worker/worker/.aws_keys"
+INSTALL_DIR="/opt/pastar_web_worker"
+AWS_KEY_FILE="$INSTALL_DIR/.aws_keys"
 
 sudo apt update
 sudo apt install -y build-essential python3-django python3-pip libcurl4-openssl-dev libssl-dev libboost-all-dev python3-venv python-celery-common
+
+sudo mkdir -p /opt/
+sudo cp -apv worker/ $INSTALL_DIR
 
 git clone https://github.com/danielsundfeld/astar_msa
 cd astar_msa
 make
 sudo cp bin/msa_astar bin/msa_pastar /usr/bin/
-cd ../worker
+cd ..
 python3 -m pip install celery[sqs]
 
 echo "Please enter the AWS_ACCESS_KEY"
@@ -27,6 +31,6 @@ EOL
 
 chmod 400 $AWS_KEY_FILE
 
-sudo cp ../deploy/pastar_web_worker.service /etc/systemd/system/
+sudo cp ./deploy/pastar_web_worker.service /etc/systemd/system/
 sudo systemctl start pastar_web_worker
 sudo systemctl enable pastar_web_worker
