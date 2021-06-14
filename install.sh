@@ -1,6 +1,7 @@
 #!/bin/bash
 INSTALL_DIR="/opt/pastar_web_worker"
 AWS_KEY_FILE="$INSTALL_DIR/.aws_keys"
+cd $(dirname $0)
 
 sudo apt update
 sudo apt install -y build-essential python3-django python3-pip libcurl4-openssl-dev libssl-dev libboost-all-dev python3-venv python-celery-common
