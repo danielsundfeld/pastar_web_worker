@@ -3,13 +3,22 @@ INSTALL_DIR="/opt/pastar_web_worker"
 AWS_KEY_FILE="$INSTALL_DIR/.aws_keys"
 cd $(dirname $0)
 
-echo "Please enter the AWS_ACCESS_KEY"
-read AWS_ACCESS_KEY_ID
-echo "Please enter the AWS_SECRET_ACCESS_KEY"
-read AWS_SECRET_ACCESS_KEY
+if [ "x$AWS_ACCESS_KEY_ID" = "x" ]; then
+    echo "Please enter the AWS_ACCESS_KEY_ID"
+    read AWS_ACCESS_KEY_ID
+fi
+if [ "x$AWS_SECRET_ACCESS_KEY" = "x" ]; then
+    echo "Please enter the AWS_SECRET_ACCESS_KEY"
+    read AWS_SECRET_ACCESS_KEY
+fi
 
 AWS_REGION=$(curl http://169.254.169.254/latest/meta-data/placement/region 2>/dev/null)
-echo "Installing for $AWS_REGION region"
+if [ "x$AWS_REGION" = "x" ]; then
+    echo "Please enter the AWS_REGION"
+    read AWS_REGION
+else
+    echo "Installing for $AWS_REGION region"
+fi
 echo "Install dir: $INSTALL_DIR"
 
 sudo apt update
