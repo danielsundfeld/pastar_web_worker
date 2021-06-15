@@ -1,8 +1,8 @@
 #!/bin/bash
 INSTALL_DIR="/opt/pastar_web_worker"
 AWS_KEY_FILE="$INSTALL_DIR/.aws_keys"
-USER=ubuntu
-GROUP=ubuntu
+INSTALL_USER=ubuntu
+INSTALL_GROUP=ubuntu
 
 cd $(dirname $0)
 
@@ -45,7 +45,7 @@ EOL
 
 chmod 400 $AWS_KEY_FILE
 
-sudo chown $INSTALL_USER:$INSTALL_GROUP -R $INSTALL_DIR
+sudo chown -R $INSTALL_USER:$INSTALL_GROUP $INSTALL_DIR
 
 sudo cp ./deploy/pastar_web_worker.service /etc/systemd/system/
 sudo systemctl start pastar_web_worker
